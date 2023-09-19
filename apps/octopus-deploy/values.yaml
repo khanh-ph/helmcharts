@@ -124,3 +124,10 @@ dockerHub:
   # kubectl create secret docker-registry regcred --docker-username=myusername --docker-password=mypassword --dry-run=client -o="jsonpath={.data.\.dockerconfigjson}"
   # See https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
   creds:
+
+# Database configurations
+db:
+  image: mcr.microsoft.com/mssql/server:2019-latest
+  saSecretName: octopus-deploy
+  saSecretKey: sa-password
+  storageClass: 
