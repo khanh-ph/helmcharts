@@ -15,11 +15,15 @@ Welcome to my personal collection of Helm charts. These charts have been customi
     helm repo add khanhph https://raw.githubusercontent.com/khanh-ph/helmcharts/master/
     ```
 
-2. Install a chart from this repo:
+2. Save the values file from the chart:
 
     ```sh
     helm show values khanhph/[CHART_NAME] > myValues.yaml
     ```
+
+3. Open the `myValues.yaml` file in your favorite editor and update the variables to reflect your desired values.
+
+4. Install the chart with your own values file:
 
     ```sh
     helm install [YOUR_APP_NAME] khanhph/[CHART_NAME] -f myValues.yaml
