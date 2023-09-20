@@ -56,7 +56,7 @@ spec:
             - containerPort: 1433
           env:
             - name: MSSQL_PID
-              value: Express
+              value: {{ .Values.db.mssqlPid }}
             - name: ACCEPT_EULA
               value: 'Y'
             - name: SA_PASSWORD

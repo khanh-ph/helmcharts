@@ -1,5 +1,5 @@
 apiVersion: v2
-name: octopusdeploy-helm # The chart name is also used as the repository name when publishing
+name: octopus-deploy # The chart name is also used as the repository name when publishing
 description: Octopus automates complex deployments. This chart deploys the Octopus Deploy server into a Kubernetes cluster.
 
 type: application
@@ -13,4 +13,4 @@ version: 0.0.0
 # incremented each time you make changes to the application. Versions are not expected to
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
-appVersion: "2022.4"
+appVersion: "2022.3"
