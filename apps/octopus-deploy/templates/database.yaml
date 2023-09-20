@@ -5,7 +5,7 @@ metadata:
 spec:
   accessModes:
   - ReadWriteOnce
-  storageClassName: { .Values.db.storageClass }
+  storageClassName: {{ default .Values.global.storageClassName .Values.db.storageClassName }}
   resources:
     requests:
       storage: 8Gi
@@ -61,9 +61,9 @@ spec:
               value: 'Y'
             - name: SA_PASSWORD
               valueFrom:
-                secretKeyRef:
-                  name: { .Values.db.saSecretName }
-                  key: { .Values.db.saSecretKey }
+                  secretKeyRef:
+                    name: octopus-deploy-secrets
+                    key: dbSaPassword
           volumeMounts:
             - name: dbdata
               mountPath: /var/opt/mssql

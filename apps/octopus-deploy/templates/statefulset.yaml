@@ -168,29 +168,25 @@ spec:
         name: server-log-volume
       spec:
         accessModes: [ "ReadWriteOnce" ]
-        {{- if (eq "-" (.Values.octopus.serverLogVolume.storageClassName | toString)) }}
-        storageClassName: ""
-        {{- else if .Values.octopus.serverLogVolume.storageClassName }}
-        storageClassName: "{{ .Values.octopus.serverLogVolume.storageClassName }}"
-        {{- end }}
+        storageClassName: {{ default .Values.global.storageClassName .Values.octopus.serverLogVolume.storageClassName }}
         resources:
           requests:
             storage: {{.Values.octopus.serverLogVolume.size}}
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: octopus-deploy-secrets
-type: Opaque
-data:
-  {{- if .Values.octopus.username }}
-  adminUsername: {{.Values.octopus.username | b64enc}}
-  {{- end}}
-  {{- if .Values.octopus.password }}
-  adminPassword: {{.Values.octopus.password | b64enc}}
-  {{- end}}
-  {{- if .Values.octopus.licenseKeyBase64 }}
-  licenseKey: {{.Values.octopus.licenseKeyBase64 | b64enc}}
-  {{- end}}
-  masterKey: {{.Values.octopus.masterKey | b64enc}}
-  dbConnectionString: {{ tpl .Values.octopus.databaseConnectionString . | b64enc}}
+# ---
+# apiVersion: v1
+# kind: Secret
+# metadata:
+#   name: octopus-deploy-secrets
+# type: Opaque
+# data:
+#   {{- if .Values.octopus.username }}
+#   adminUsername: {{.Values.octopus.username | b64enc}}
+#   {{- end}}
+#   {{- if .Values.octopus.password }}
+#   adminPassword: {{.Values.octopus.password | b64enc}}
+#   {{- end}}
+#   {{- if .Values.octopus.licenseKeyBase64 }}
+#   licenseKey: {{.Values.octopus.licenseKeyBase64 | b64enc}}
+#   {{- end}}
+#   masterKey: {{.Values.octopus.masterKey | b64enc}}
+#   dbConnectionString: {{ tpl .Values.octopus.databaseConnectionString . | b64enc}}

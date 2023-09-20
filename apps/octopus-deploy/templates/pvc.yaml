@@ -14,11 +14,7 @@ spec:
     {{- else }}
     - {{.Values.octopus.packageRepositoryVolume.storageAccessMode}}
     {{- end }}
-  {{- if (eq "-" (.Values.octopus.packageRepositoryVolume.storageClassName | toString)) }}
-  storageClassName: ""
-  {{- else if .Values.octopus.packageRepositoryVolume.storageClassName }}
-  storageClassName: "{{ .Values.octopus.packageRepositoryVolume.storageClassName }}"
-  {{- end }}
+  storageClassName: {{ default .Values.global.storageClassName .Values.octopus.packageRepositoryVolume.storageClassName }}
   resources:
     requests:
       storage: {{.Values.octopus.packageRepositoryVolume.size}}
@@ -39,11 +35,7 @@ spec:
     {{- else }}
     - {{.Values.octopus.artifactVolume.storageAccessMode}}
     {{- end }}
-  {{- if (eq "-" (.Values.octopus.artifactVolume.storageClassName | toString)) }}
-  storageClassName: ""
-  {{- else if .Values.octopus.artifactVolume.storageClassName }}
-  storageClassName: "{{ .Values.octopus.artifactVolume.storageClassName }}"
-  {{- end }}
+  storageClassName: {{ default .Values.global.storageClassName .Values.octopus.artifactVolume.storageClassName }}
   resources:
     requests:
       storage: {{.Values.octopus.artifactVolume.size}}
@@ -64,11 +56,7 @@ spec:
     {{- else }}
     - {{.Values.octopus.taskLogVolume.storageAccessMode}}
       {{- end }}
-  {{- if (eq "-" (.Values.octopus.taskLogVolume.storageClassName | toString)) }}
-  storageClassName: ""
-  {{- else if .Values.octopus.taskLogVolume.storageClassName }}
-  storageClassName: "{{ .Values.octopus.taskLogVolume.storageClassName }}"
-  {{- end }}
+  storageClassName: {{ default .Values.global.storageClassName .Values.octopus.taskLogVolume.storageClassName }}
   resources:
     requests:
       storage: {{.Values.octopus.taskLogVolume.size}}

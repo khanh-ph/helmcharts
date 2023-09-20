@@ -1,9 +1,12 @@
+global:
+  storageClassName:
+
 octopus:
   # Must be set to "Y" (including the quotes) to accept the EULA at https://octopus.com/legal/customer-agreement
   acceptEula: "N"
   # The master key is used to encrypt secrets. Generate a key with: openssl rand 16 | base64
   masterKey: GENERATE_ME
-  databaseConnectionString:
+  databaseConnectionString: ""
   # The Octopus admin username
   username:
   # The Octopus admin password
@@ -128,6 +131,4 @@ dockerHub:
 # Database configurations
 db:
   image: mcr.microsoft.com/mssql/server:2019-latest
-  saSecretName: octopus-deploy
-  saSecretKey: sa-password
-  storageClass: 
+  storageClassName: 
