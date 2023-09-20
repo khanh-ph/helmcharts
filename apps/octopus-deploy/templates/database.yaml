@@ -46,7 +46,7 @@ spec:
       securityContext:
         fsGroup: 10001
       volumes:
-        - name: dbdata
+        - name: {{ .Chart.Name }}-db-data
           persistentVolumeClaim:
             claimName: {{ .Chart.Name }}-db-data
       containers:
@@ -65,5 +65,5 @@ spec:
                     name: octopus-deploy-secrets
                     key: dbSaPassword
           volumeMounts:
-            - name: dbdata
+            - name: {{ .Chart.Name }}-db-data
               mountPath: /var/opt/mssql

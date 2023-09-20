@@ -1,7 +1,7 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: package-repository-claim
+  name: {{ .Chart.Name }}-package-repository-claim
   labels:
     app: {{ template "octopus.name" . }}
     chart: {{ template "octopus.chart" . }}
@@ -22,7 +22,7 @@ spec:
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: artifacts-claim
+  name: {{ .Chart.Name }}-artifacts-claim
   labels:
     app: {{ template "octopus.name" . }}
     chart: {{ template "octopus.chart" . }}
@@ -43,7 +43,7 @@ spec:
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: task-log-claim
+  name: {{ .Chart.Name }}-task-log-claim
   labels:
     app: {{ template "octopus.name" . }}
     chart: {{ template "octopus.chart" . }}

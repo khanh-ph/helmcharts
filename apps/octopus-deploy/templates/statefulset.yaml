@@ -109,13 +109,13 @@ spec:
                   - containerPort: 10943
                     name: tentacle
                 volumeMounts:
-                  - name: package-repository-volume
+                  - name: {{ .Chart.Name }}-package-repository-volume
                     mountPath: /repository
-                  - name: artifacts-volume
+                  - name: {{ .Chart.Name }}-artifacts-volume
                     mountPath: /artifacts
-                  - name: task-log-volume
+                  - name: {{ .Chart.Name }}-task-log-volume
                     mountPath: /taskLogs
-                  - name: server-log-volume
+                  - name: {{ .Chart.Name }}-server-log-volume
                     mountPath: /home/octopus/.octopus/OctopusServer/Server/Logs
                 {{- if .Values.octopus.resources }}
                 resources:
@@ -154,18 +154,18 @@ spec:
             {{- end }}
       terminationGracePeriodSeconds: 10
       volumes:
-        - name: package-repository-volume
+        - name: {{ .Chart.Name }}-package-repository-volume
           persistentVolumeClaim:
-            claimName: package-repository-claim
-        - name: artifacts-volume
+            claimName: {{ .Chart.Name }}-package-repository-claim
+        - name: {{ .Chart.Name }}-artifacts-volume
           persistentVolumeClaim:
-            claimName: artifacts-claim
-        - name: task-log-volume
+            claimName: {{ .Chart.Name }}-artifacts-claim
+        - name: {{ .Chart.Name }}-task-log-volume
           persistentVolumeClaim:
-            claimName: task-log-claim
+            claimName: {{ .Chart.Name }}-task-log-claim
   volumeClaimTemplates:
     - metadata:
-        name: server-log-volume
+        name: {{ .Chart.Name }}-server-log-volume
       spec:
         accessModes: [ "ReadWriteOnce" ]
         storageClassName: {{ default .Values.global.storageClassName .Values.octopus.serverLogVolume.storageClassName }}
