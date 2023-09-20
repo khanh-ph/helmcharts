@@ -1,0 +1,62 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ .Chart.Name }}-package-repository-claim
+  labels:
+    app: {{ template "octopus.name" . }}
+    chart: {{ template "octopus.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  accessModes:
+    {{- if (gt (.Values.octopus.replicaCount | int) 1)}}
+    - ReadWriteMany
+    {{- else }}
+    - {{.Values.octopus.packageRepositoryVolume.storageAccessMode}}
+    {{- end }}
+  storageClassName: {{ default .Values.global.storageClassName .Values.octopus.packageRepositoryVolume.storageClassName }}
+  resources:
+    requests:
+      storage: {{.Values.octopus.packageRepositoryVolume.size}}
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ .Chart.Name }}-artifacts-claim
+  labels:
+    app: {{ template "octopus.name" . }}
+    chart: {{ template "octopus.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  accessModes:
+    {{- if (gt (.Values.octopus.replicaCount | int) 1)}}
+    - ReadWriteMany
+    {{- else }}
+    - {{.Values.octopus.artifactVolume.storageAccessMode}}
+    {{- end }}
+  storageClassName: {{ default .Values.global.storageClassName .Values.octopus.artifactVolume.storageClassName }}
+  resources:
+    requests:
+      storage: {{.Values.octopus.artifactVolume.size}}
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ .Chart.Name }}-task-log-claim
+  labels:
+    app: {{ template "octopus.name" . }}
+    chart: {{ template "octopus.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  accessModes:
+    {{- if (gt (.Values.octopus.replicaCount | int) 1)}}
+    - ReadWriteMany
+    {{- else }}
+    - {{.Values.octopus.taskLogVolume.storageAccessMode}}
+      {{- end }}
+  storageClassName: {{ default .Values.global.storageClassName .Values.octopus.taskLogVolume.storageClassName }}
+  resources:
+    requests:
+      storage: {{.Values.octopus.taskLogVolume.size}}

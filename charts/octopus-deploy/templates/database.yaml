@@ -1,0 +1,69 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ .Chart.Name }}-db-data
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: {{ default .Values.global.storageClassName .Values.db.storageClassName }}
+  resources:
+    requests:
+      storage: 8Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Chart.Name }}-db-svc
+spec:
+  type: ClusterIP
+  ports:
+    -
+      port: 1433
+      targetPort: 1433
+      protocol: TCP
+  selector:
+    app: {{ .Chart.Name }}-db
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}-db-deployment
+  labels:
+    app: {{ .Chart.Name }}-db
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}-db
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}-db
+    spec:
+      terminationGracePeriodSeconds: 10
+      securityContext:
+        fsGroup: 10001
+      volumes:
+        - name: {{ .Chart.Name }}-db-data
+          persistentVolumeClaim:
+            claimName: {{ .Chart.Name }}-db-data
+      containers:
+        - name: mssql
+          image: {{ .Values.db.image }}
+          ports:
+            - containerPort: 1433
+          env:
+            - name: MSSQL_PID
+              value: {{ .Values.db.mssqlPid }}
+            - name: ACCEPT_EULA
+              value: 'Y'
+            - name: SA_PASSWORD
+              valueFrom:
+                  secretKeyRef:
+                    name: octopus-deploy-secrets
+                    key: dbSaPassword
+          volumeMounts:
+            - name: {{ .Chart.Name }}-db-data
+              mountPath: /var/opt/mssql
