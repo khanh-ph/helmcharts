@@ -20,14 +20,22 @@ kubectl create secret octopus-deploy-secrets \
 
 ## Usage
 
-1. Install the Chart
+1. Add this repo:
+
     ```sh
-    git clone <repo_url>
-    cd charts
-    helm install octopus-deploy 
+    helm repo add khanhph https://raw.githubusercontent.com/khanh-ph/helmcharts/master/
     ```
 
-2. Update the Chart
+2. Save the values file from the chart:
+
     ```sh
-    helm upgrade octopus-deploy
+    helm show values khanhph/octopus-deploy > octopus-deploy-values.yaml
+    ```
+
+3. Open the `octopus-deploy-values.yaml` file in your favorite editor and update the variables to reflect your desired values.
+
+4. Install the chart with your own values file:
+
+    ```sh
+    helm install octopus-deploy khanhph/octopus-deploy -f octopus-deploy-values.yaml
     ```
