@@ -8,9 +8,9 @@ octopus:
   masterKey: ""
   databaseConnectionString: ""
   # The Octopus admin username
-  username:
+  username: "GET_FROM_SECRET"
   # The Octopus admin password
-  password:
+  password: "GET_FROM_SECRET"
   # The Octopus admin email
   email:
   # The Octopus server image. 

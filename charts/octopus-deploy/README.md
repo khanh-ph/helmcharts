@@ -10,24 +10,34 @@ The following changes have been made:
 
 By removing Secret manifest from the Chart, it requires the Secret `octopus-deploy-secrets` to be created before Helm deployment.
 ```
-kubectl create secret octopus-deploy-secrets \
---from-literal=masterKey=<Your base64 encoding key> \
---from-literal=adminUsername=<Your admin user name> \
---from-literal=adminPassword=<Your admin password> \
---from-literal=dbSaPassword=<Your db sa password> \
---from-literal=dbConnectionString=<Your db connection string>
+kubectl create secret generic octopus-deploy-secrets \
+--from-literal=masterKey='<Your base64 encoding key>' \
+--from-literal=adminUsername='<Your admin user name>' \
+--from-literal=adminPassword='<Your admin password>' \
+--from-literal=dbSaPassword='<Your db sa password>' \
+--from-literal=dbConnectionString='Server=octopus-deploy-db-svc,1433;Database=OctopusDeploy;User=sa;Password=<Your db sa password>'
 ```
+
+> `masterKey` can be generated using `openssh rand -base64 16`
 
 ## Usage
 
-1. Install the Chart
+1. Add this repo:
+
     ```sh
-    git clone <repo_url>
-    cd charts
-    helm install octopus-deploy 
+    helm repo add khanhph https://raw.githubusercontent.com/khanh-ph/helmcharts/master/
     ```
 
-2. Update the Chart
+2. Save the values file from the chart:
+
     ```sh
-    helm upgrade octopus-deploy
+    helm show values khanhph/octopus-deploy > octopus-deploy-values.yaml
+    ```
+
+3. Open the `octopus-deploy-values.yaml` file in your favorite editor and update the variables to reflect your desired values.
+
+4. Install the chart with your own values file:
+
+    ```sh
+    helm install octopus-deploy khanhph/octopus-deploy -f octopus-deploy-values.yaml
     ```
