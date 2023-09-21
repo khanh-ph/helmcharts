@@ -10,13 +10,15 @@ The following changes have been made:
 
 By removing Secret manifest from the Chart, it requires the Secret `octopus-deploy-secrets` to be created before Helm deployment.
 ```
-kubectl create secret octopus-deploy-secrets \
---from-literal=masterKey=<Your base64 encoding key> \
---from-literal=adminUsername=<Your admin user name> \
---from-literal=adminPassword=<Your admin password> \
---from-literal=dbSaPassword=<Your db sa password> \
---from-literal=dbConnectionString=<Your db connection string>
+kubectl create secret generic octopus-deploy-secrets \
+--from-literal=masterKey='<Your base64 encoding key>' \
+--from-literal=adminUsername='<Your admin user name>' \
+--from-literal=adminPassword='<Your admin password>' \
+--from-literal=dbSaPassword='<Your db sa password>' \
+--from-literal=dbConnectionString='Server=octopus-deploy-db-svc,1433;Database=OctopusDeploy;User=sa;Password=<Your db sa password>'
 ```
+
+> `masterKey` can be generated using `openssh rand -base64 16`
 
 ## Usage
 
